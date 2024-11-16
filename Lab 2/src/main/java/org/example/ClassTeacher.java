@@ -29,36 +29,15 @@ public class ClassTeacher {
     }
 
     public void removeTeacher(Teacher teacher) {
-        Teacher tempTeacher = getTeacherFromList(teacher);
-
-        if (tempTeacher == null) {
-            System.out.println("Nauczyciel nie istnieje w liscie");
-            return;
-        }
-
-        teachersList.remove(tempTeacher);
+        teachersList.remove(teacher);
     }
 
     public void addSalary(Teacher teacher, double salary) {
-        Teacher tempTeacher = getTeacherFromList(teacher);
-
-        if (tempTeacher == null) {
-            System.out.println("Nauczyciel nie istnieje w liscie");
-            return;
-        }
-
-        tempTeacher.updateSalary(salary);
+        teacher.updateSalary(salary);
     }
 
     public void changeCondition(Teacher teacher, TeacherConditionEnum condition) {
-        Teacher tempTeacher = getTeacherFromList(teacher);
-
-        if (tempTeacher == null) {
-            System.out.println("Nauczyciel nie istnieje w liscie");
-            return;
-        }
-
-        tempTeacher.updateCondition(condition);
+        teacher.updateCondition(condition);
     }
 
     public Teacher search(String surname) {
@@ -102,7 +81,7 @@ public class ClassTeacher {
     public List<Teacher> sortBySalary() {
         var teachersList = new ArrayList<>(this.teachersList);
         teachersList.sort(Teacher.Comparators.SALARY);
-        return teachersList;
+        return teachersList.reversed();
     }
 
     public Teacher max() {

@@ -10,7 +10,7 @@ public class Main {
 
         Teacher teacher1 = new Teacher("Dariusz", "Homa", TeacherConditionEnum.OBECNY, 2002, 1000);
         Teacher teacher2 = new Teacher("Adrian", "Jamrogiewicz", TeacherConditionEnum.DELEGACJA, 2002, 3600);
-        Teacher teacher3 = new Teacher("Tomasz", "Gacek", TeacherConditionEnum.CHORY, 2002, 5000);
+        Teacher teacher3 = new Teacher("Tomasz", "JaGacek", TeacherConditionEnum.CHORY, 2002, 5000);
         Teacher teacher4 = new Teacher("Anna", "Nowak", TeacherConditionEnum.OBECNY, 1998, 4500);
         Teacher teacher5 = new Teacher("Marcin", "Kowalski", TeacherConditionEnum.DELEGACJA, 2005, 5200);
         Teacher teacher6 = new Teacher("Joanna", "Krawczyk", TeacherConditionEnum.CHORY, 2010, 4800);
@@ -39,12 +39,12 @@ public class Main {
         System.out.println("\nLista po zaktualizowaniu wyplaty i stanu grupy 1\n");
         classContainer.summary("Group 1");
 
-        Teacher foundTeacher = classContainer.search("Group 1", "Jamrogiewicz");
+        Teacher foundTeacher = classContainer.search("Group 1", "Nowak");
         System.out.println("\nZnaleziony nauczyciel po nazwisku\n");
         if (foundTeacher != null) foundTeacher.printing();
         else System.out.println("Nauczyciel o takim nazwisku nie istnieje na liscie");
 
-        var foundTeachersList = classContainer.searchPartial("Group 2", "Ko");
+        var foundTeachersList = classContainer.searchPartial("Group 1", "Ja");
         System.out.println("\nLista nauczycieli po przeszukiwaniu czesciowym\n");
         for(Teacher teacher : foundTeachersList) teacher.printing();
 
