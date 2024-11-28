@@ -1,10 +1,13 @@
 package org.example;
 
-// Łączenie z bazą przez JDBC
-// Prosty CRUD
-
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        Database db = new Database();
+
+        db.createUser("John Doe", "john.doe@example.com");
+        db.readUsers();
+        db.updateUser(1, "Jane Doe", "jane.doe@example.com");
+        db.deleteUser(1);
+        db.readUsers();
     }
 }
