@@ -35,4 +35,8 @@ public class TeacherService {
     public void deleteTeacher(Teacher teacher) {
         teacherRepository.delete(teacher);
     }
+
+    public List<Teacher> getTeachersByGroupAndName(String group, String name) {
+        return teacherRepository.findByGroupFilteredByLastName(group, name);
+    }
 }

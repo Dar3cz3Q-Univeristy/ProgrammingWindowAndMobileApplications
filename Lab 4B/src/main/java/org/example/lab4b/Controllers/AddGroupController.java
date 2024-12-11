@@ -6,16 +6,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.lab4b.Model.Teacher;
 import org.example.lab4b.Model.TeacherClass;
 import org.example.lab4b.Service.TeacherClassService;
+import org.hibernate.HibernateException;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class AddGroupController implements Initializable {
 
-    TeacherClassService classService = new TeacherClassService();
+    private final TeacherClassService classService = new TeacherClassService();
 
     @FXML
     private TextField capacity;
@@ -41,6 +41,9 @@ public class AddGroupController implements Initializable {
                 return;
             } catch (IllegalArgumentException e) {
                 error.setText(e.getMessage());
+                return;
+            } catch (HibernateException e) {
+                error.setText("Nazwa grupy jest juz zajeta");
                 return;
             }
 

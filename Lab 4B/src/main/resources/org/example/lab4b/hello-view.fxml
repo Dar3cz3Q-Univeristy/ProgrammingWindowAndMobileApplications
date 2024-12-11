@@ -11,14 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.lab4b.Controllers.ApplicationController">
     <children>
         <VBox prefHeight="200.0" prefWidth="390.0">
             <children>
                 <HBox prefHeight="90.0">
                     <children>
-                        <Label prefHeight="90.0" prefWidth="300.0" text="Grupy" textAlignment="CENTER">
+                        <Label prefHeight="90.0" prefWidth="190.0" text="Grupy" textAlignment="CENTER">
                             <font>
                                 <Font size="32.0" />
                             </font>
@@ -26,23 +25,43 @@
                                 <Insets left="20.0" right="20.0" />
                             </padding>
                         </Label>
-                        <Button fx:id="addGroupButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="+">
+                        <Button fx:id="addRateButton" mnemonicParsing="false" prefHeight="51.0" prefWidth="108.0" text="Oceń">
                             <HBox.margin>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                <Insets bottom="20.0" left="20.0" top="20.0" />
                             </HBox.margin>
                             <font>
                                 <Font size="24.0" />
                             </font>
                         </Button>
+                  <Button fx:id="addGroupButton" mnemonicParsing="false" prefHeight="51.0" prefWidth="59.0" text="+">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </HBox.margin>
+                  </Button>
                     </children>
                 </HBox>
-                <TableView fx:id="groupsTable" prefHeight="632.0" prefWidth="389.0">
+                <TableView fx:id="groupsTable" prefHeight="520.0" prefWidth="390.0">
                     <columns>
-                        <TableColumn fx:id="groupsTableName" prefWidth="195.0" text="Nazwa" />
-                        <TableColumn fx:id="groupsTableCapacity" prefWidth="92.0" text="Pojemność" />
-                        <TableColumn fx:id="groupsTableFill" prefWidth="101.0" text="Zapełnienie [%]" />
+                        <TableColumn fx:id="groupsTableName" prefWidth="113.0" text="Nazwa" />
+                        <TableColumn fx:id="groupsTableCapacity" prefWidth="72.0" text="Pojemność" />
+                        <TableColumn fx:id="groupsTableFill" prefWidth="98.0" text="Zapełnienie [%]" />
+                  <TableColumn fx:id="groupsTableRateCount" prefWidth="64.0" text="Ilość ocen" />
+                  <TableColumn fx:id="groupsTableRateAvg" prefWidth="41.0" text="Ocena" />
                     </columns>
                 </TableView>
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="45.0">
+               <children>
+                  <Button fx:id="downloadGroups" mnemonicParsing="false" text="Pobierz grupy" />
+                  <Button fx:id="downloadTeachers" mnemonicParsing="false" text="Pobierz nauczycieli" />
+                  <Button fx:id="downloadRates" mnemonicParsing="false" text="Pobierz oceny" />
+               </children>
+               <padding>
+                  <Insets top="45.0" />
+               </padding>
+            </HBox>
             </children>
         </VBox>
         <VBox prefHeight="200.0" prefWidth="390.0">

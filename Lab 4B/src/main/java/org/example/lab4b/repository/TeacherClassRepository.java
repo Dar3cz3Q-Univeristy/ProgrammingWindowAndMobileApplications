@@ -2,7 +2,6 @@ package org.example.lab4b.Repository;
 
 import org.example.lab4b.Model.TeacherClass;
 import org.example.lab4b.Util.HibernateUtil;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -13,15 +12,6 @@ public class TeacherClassRepository {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.getTransaction().begin();
             session.persist(group);
-            session.getTransaction().commit();
-            return group;
-        }
-    }
-
-    public TeacherClass update(TeacherClass group) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.getTransaction().begin();
-            session.merge(group);
             session.getTransaction().commit();
             return group;
         }

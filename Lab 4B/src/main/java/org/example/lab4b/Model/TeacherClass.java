@@ -19,7 +19,10 @@ public class TeacherClass {
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Teacher> teachers;
 
-    @Column
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Rate> rates;
+
+    @Column(unique = true)
     @NonNull
     private String name;
 

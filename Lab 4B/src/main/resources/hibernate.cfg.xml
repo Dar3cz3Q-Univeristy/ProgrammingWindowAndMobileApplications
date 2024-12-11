@@ -15,5 +15,6 @@
 
         <mapping class="org.example.lab4b.Model.Teacher"/>
         <mapping class="org.example.lab4b.Model.TeacherClass"/>
+        <mapping class="org.example.lab4b.Model.Rate"/>
     </session-factory>
 </hibernate-configuration>

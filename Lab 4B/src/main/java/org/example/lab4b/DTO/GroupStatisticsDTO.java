@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class GroupFillDTO {
+public class GroupStatisticsDTO {
 
     private String name;
     private int capacity;
     private double fillPercentage;
+    private Long rateCount;
+    private double rateAvg;
 }

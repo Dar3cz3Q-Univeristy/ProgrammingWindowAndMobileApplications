@@ -62,4 +62,12 @@ public class TeacherRepository {
             return count != null ? count.intValue() : 0;
         }
     }
+
+    public List<Teacher> findByGroupFilteredByLastName(String group, String lastName) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "SELECT t FROM Teacher t WHERE t.group.name = :groupName AND t.surname LIKE :lastName"
+            ).setParameter("groupName", group).setParameter("lastName", lastName + "%").getResultList();
+        }
+    }
 }

@@ -11,24 +11,35 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.example.lab4b.DTO.GroupFillDTO;
-import org.example.lab4b.Mapper.GroupMapper;
+import lombok.Setter;
+import org.example.lab4b.DTO.GroupStatisticsDTO;
+import org.example.lab4b.FileSaver.GroupToCSV;
+import org.example.lab4b.FileSaver.RateToCSV;
+import org.example.lab4b.FileSaver.TeacherToCSV;
+import org.example.lab4b.Mapper.GroupStatisticsMapper;
 import org.example.lab4b.Model.Teacher;
 import org.example.lab4b.Model.TeacherClass;
 import org.example.lab4b.Model.TeacherCondition;
+import org.example.lab4b.Service.RateService;
 import org.example.lab4b.Service.TeacherClassService;
 import org.example.lab4b.Service.TeacherService;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class ApplicationController implements Initializable {
 
     private final TeacherService teacherService = new TeacherService();
     private final TeacherClassService classService = new TeacherClassService();
+    private final RateService rateService = new RateService();
+    @Setter
+    private Stage stage;
 
     private String selectedGroup;
     private Teacher selectedTeacher;
@@ -92,6 +103,14 @@ public class ApplicationController implements Initializable {
 
         // Add teacher event
         addTeacherButton.setOnAction(this::handleAddTeacher);
+
+        // Add rate event
+        addRateButton.setOnAction(this::handleAddRate);
+
+        // Add download events
+        downloadGroups.setOnAction(this::handleDownload);
+        downloadRates.setOnAction(this::handleDownload);
+        downloadTeachers.setOnAction(this::handleDownload);
     }
 
     private void initializeComboBox() {
@@ -115,7 +134,7 @@ public class ApplicationController implements Initializable {
     private Button addGroupButton;
 
     @FXML
-    private TableView<GroupFillDTO> groupsTable;
+    private TableView<GroupStatisticsDTO> groupsTable;
 
     @FXML
     private TableColumn<TeacherClass, String> groupsTableName;
@@ -126,12 +145,20 @@ public class ApplicationController implements Initializable {
     @FXML
     private TableColumn<TeacherClass, String> groupsTableFill;
 
-    ObservableList<GroupFillDTO> groups = FXCollections.observableArrayList();
+    @FXML
+    private TableColumn<TeacherClass, Long> groupsTableRateCount;
+
+    @FXML
+    private TableColumn<TeacherClass, Double> groupsTableRateAvg;
+
+    ObservableList<GroupStatisticsDTO> groups = FXCollections.observableArrayList();
 
     public void initializeGroups() {
         groupsTableName.setCellValueFactory(new PropertyValueFactory<>("name"));
         groupsTableCapacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         groupsTableFill.setCellValueFactory(new PropertyValueFactory<>("fillPercentage"));
+        groupsTableRateCount.setCellValueFactory(new PropertyValueFactory<>("rateCount"));
+        groupsTableRateAvg.setCellValueFactory(new PropertyValueFactory<>("rateAvg"));
 
         updateGroupsTable();
     }
@@ -140,10 +167,20 @@ public class ApplicationController implements Initializable {
         groupsTable.getItems().clear();
 
         List<TeacherClass> classes = classService.getAllGroups();
+        Map<String, Object[]> statistics = rateService.getRateStatistics();
 
         for (var group : classes) {
             int teachersInGroup = teacherService.countByGroup(group.getName());
-            groups.add(GroupMapper.toDTO(group, teachersInGroup));
+            Object[] groupStatistics = statistics.get(group.getName());
+            Long count = groupStatistics != null ? (Long) groupStatistics[0] : 0;
+            double avg = groupStatistics != null ? (Double) groupStatistics[1] : 0.0;
+
+            groups.add(GroupStatisticsMapper.toDTO(
+                    group,
+                    teachersInGroup,
+                    count,
+                    avg
+            ));
         }
 
         groupsTable.setItems(groups);
@@ -153,8 +190,6 @@ public class ApplicationController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/lab4b/add-group-view.fxml"));
             Parent root = loader.load();
-
-            AddGroupController controller = loader.getController();
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -220,11 +255,11 @@ public class ApplicationController implements Initializable {
     }
 
     private void handleSearch(KeyEvent event) {
-//        if (event.getCode().toString().equals("ENTER")) {
-//            teachersTable.getItems().clear();
-//            teachers.addAll(classContainer.getClassTeacher(selectedGroup).searchPartial(teachersSearch.getText()));
-//            teachersTable.setItems(teachers);
-//        }
+        if (event.getCode().toString().equals("ENTER")) {
+            teachersTable.getItems().clear();
+            teachers.addAll(teacherService.getTeachersByGroupAndName(selectedGroup, teachersSearch.getText()));
+            teachersTable.setItems(teachers);
+        }
     }
 
     public void updateTeachersTable() {
@@ -323,5 +358,65 @@ public class ApplicationController implements Initializable {
         updateTeachersTable();
         selectedTeacher = null;
         updateTeacherInfo();
+    }
+
+    // Rates
+
+    @FXML
+    private Button addRateButton;
+
+    private void handleAddRate(ActionEvent actionEvent) {
+        if (classService.getAllGroups().isEmpty()) {
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/lab4b/add-rate-view.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dodaj nową ocenę");
+            stage.setOnHiding(event -> {
+                updateGroupsTable();
+                updateTeachersTable();
+            });
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // CSV Files
+
+    @FXML
+    private Button downloadGroups;
+
+    @FXML
+    private Button downloadTeachers;
+
+    @FXML
+    private Button downloadRates;
+
+    private void handleDownload(ActionEvent actionEvent) {
+        Object source = actionEvent.getSource();
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save CSV File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file == null) {
+            return;
+        }
+
+        if (source == downloadRates) {
+            RateToCSV.saveToCSV(file.getAbsolutePath(), rateService.findAll());
+        } else if (source == downloadTeachers) {
+            TeacherToCSV.saveToCSV(file.getAbsolutePath(), teacherService.getAllTeachers());
+        } else if (source == downloadGroups) {
+            GroupToCSV.saveToCSV(file.getAbsolutePath(), classService.getAllGroups());
+        }
     }
 }
