@@ -52,14 +52,14 @@
                   <TableColumn fx:id="groupsTableRateAvg" prefWidth="41.0" text="Ocena" />
                     </columns>
                 </TableView>
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="45.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0">
                <children>
                   <Button fx:id="downloadGroups" mnemonicParsing="false" text="Pobierz grupy" />
                   <Button fx:id="downloadTeachers" mnemonicParsing="false" text="Pobierz nauczycieli" />
                   <Button fx:id="downloadRates" mnemonicParsing="false" text="Pobierz oceny" />
                </children>
                <padding>
-                  <Insets top="45.0" />
+                  <Insets left="20.0" right="20.0" top="45.0" />
                </padding>
             </HBox>
             </children>

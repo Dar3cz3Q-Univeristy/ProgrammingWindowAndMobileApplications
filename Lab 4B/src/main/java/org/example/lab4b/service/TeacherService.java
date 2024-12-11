@@ -8,7 +8,9 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository = new TeacherRepository();
 
-    public Teacher createTeacher(Teacher teacher) {
+    public Teacher createTeacher(Teacher teacher) throws IllegalArgumentException {
+        int fill = teacherRepository.countByGroup(teacher.getGroup().getName());
+        if (fill >= teacher.getGroup().getCapacity()) throw new IllegalArgumentException("Grupa jest pełna");
         return teacherRepository.save(teacher);
     }
 
