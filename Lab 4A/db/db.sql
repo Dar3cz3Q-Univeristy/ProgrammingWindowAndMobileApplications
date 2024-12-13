@@ -1,0 +1,8 @@
+CREATE DATABASE lab4;
+USE lab4;
+
+CREATE TABLE users (
+    id INT IDENTITY PRIMARY KEY,
+    name NVARCHAR(50),
+    email NVARCHAR(50)
+);

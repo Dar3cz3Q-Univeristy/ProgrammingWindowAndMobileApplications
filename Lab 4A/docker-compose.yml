@@ -1,0 +1,12 @@
+name: PAIiM-Lab4A
+
+services:
+  database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: paiim_db_4a
+    ports:
+      - 1433:${MSSQL_PORT}
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_PID=Developer
