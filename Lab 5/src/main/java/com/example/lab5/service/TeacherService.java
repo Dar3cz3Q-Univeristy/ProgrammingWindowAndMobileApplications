@@ -44,7 +44,6 @@ public class TeacherService {
         if (teacherClass.isEmpty()) throw new ItemNotFoundException(ItemNotFoundException.ItemType.TEACHER_CLASS, groupId);
 
         List<Teacher> teachers = teacherRepository.findTeacherByGroup(teacherClass.get());
-
         return teachers.stream().map(teacherMapper::toDTO).collect(Collectors.toList());
     }
 
@@ -64,7 +63,6 @@ public class TeacherService {
         if (!teacherClassRepository.existsById(groupID)) throw new ItemNotFoundException(ItemNotFoundException.ItemType.TEACHER_CLASS, groupID);
 
         teacherCreateMapper.updateTeacherFromDTO(teacherCreateDTO, existingTeacher.get());
-
         return teacherMapper.toDTO(teacherRepository.save(existingTeacher.get()));
     }
 

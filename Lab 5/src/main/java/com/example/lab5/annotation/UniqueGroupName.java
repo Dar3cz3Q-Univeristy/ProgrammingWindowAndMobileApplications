@@ -13,10 +13,7 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueGroupName {
-
     String message() default "Class with this name already exists";
-
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
 }

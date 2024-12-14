@@ -54,7 +54,6 @@ public class RateService {
         if (!teacherClassRepository.existsById(groupID)) throw new ItemNotFoundException(ItemNotFoundException.ItemType.TEACHER_CLASS, groupID);
 
         rateCreateMapper.updateRateFromDTO(rateCreateDTO, existingRate.get());
-
         return rateMapper.toDTO(rateRepository.save(existingRate.get()));
     }
 

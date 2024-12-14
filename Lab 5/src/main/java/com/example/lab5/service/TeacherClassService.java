@@ -46,7 +46,6 @@ public class TeacherClassService {
         if (existingClass.isEmpty()) throw new ItemNotFoundException(ItemNotFoundException.ItemType.TEACHER_CLASS, id);
 
         teacherClassCreateMapper.updateTeacherClassFromDTO(teacherClassCreateDTO, existingClass.get());
-
         return teacherClassMapper.toDTO(teacherClassRepository.save(existingClass.get()));
     }
 
