@@ -1,6 +1,7 @@
 package com.example.lab5.mapper;
 
 import com.example.lab5.dto.get.TeacherClassDTO;
+import com.example.lab5.model.Rate;
 import com.example.lab5.model.TeacherClass;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface TeacherClassMapper {
 
     @Mapping(target = "fillPercentage", expression = "java(com.example.lab5.mapper.TeacherClassMapper.calculateFillPercentage(teacherClass))")
+    @Mapping(target = "averageRating", expression = "java(com.example.lab5.mapper.TeacherClassMapper.calculateAverageRating(teacherClass))")
     TeacherClassDTO toDTO(TeacherClass teacherClass);
 
     @Mapping(target = "teachers", ignore = true)
@@ -20,5 +22,15 @@ public interface TeacherClassMapper {
             return 0;
         }
         return ((double) teacherClass.getTeachers().size() / teacherClass.getCapacity()) * 100;
+    }
+
+    static double calculateAverageRating(TeacherClass teacherClass) {
+        if (teacherClass.getRates() == null || teacherClass.getRates().isEmpty()) {
+            return 0;
+        }
+        return teacherClass.getRates().stream()
+                .mapToDouble(Rate::getRate)
+                .average()
+                .orElse(0);
     }
 }

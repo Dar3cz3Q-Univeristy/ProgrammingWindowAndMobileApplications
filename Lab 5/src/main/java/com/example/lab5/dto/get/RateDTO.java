@@ -5,14 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TeacherClassDTO {
-    private String id;
-    private String name;
-    private int capacity;
-    private double fillPercentage;
-    private double averageRating;
+public class RateDTO {
+    String id;
+    int rate;
+    String groupID;
+    Date date;
+    String comment;
 }
