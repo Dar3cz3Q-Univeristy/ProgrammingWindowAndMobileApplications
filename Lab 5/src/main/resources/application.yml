@@ -1,0 +1,37 @@
+server:
+  port: ${APP_PORT:8080}
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: lab5
+  webflux:
+    base-path: /api/v1
+
+  jpa:
+    show-sql: true
+    database: sql_server
+    hibernate:
+      ddl-auto: update
+    properties:
+      dialect: org.hibernate.dialect.SQLServerDialect
+
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+management:
+  endpoint:
+    health:
+      show-components: always
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include:
+            - readinessState
+            - diskSpace
+            - ping

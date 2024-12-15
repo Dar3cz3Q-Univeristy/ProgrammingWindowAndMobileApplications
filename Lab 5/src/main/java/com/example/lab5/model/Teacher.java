@@ -24,5 +24,5 @@ public class Teacher {
     @Enumerated(EnumType.STRING)
     private TeacherCondition condition;
     private Date birthday;
-    private double salary;
+    private Double salary;
 }

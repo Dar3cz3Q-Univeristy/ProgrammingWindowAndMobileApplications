@@ -24,39 +24,39 @@ public class TeacherController {
     private final TeacherService teacherService;
 
     @GetMapping
-    private List<TeacherDTO> getAllTeachers() {
+    public List<TeacherDTO> getAllTeachers() {
         return teacherService.findAll();
     }
 
     @GetMapping("/{id}")
-    private TeacherDTO getTeacherById(@PathVariable("id") UUID id) {
+    public TeacherDTO getTeacherById(@PathVariable("id") UUID id) {
         return teacherService.findById(id);
     }
 
     @GetMapping("/group/{id}")
-    private List<TeacherDTO> getTeacherByGroupId(@PathVariable("id") UUID id) {
+    public List<TeacherDTO> getTeacherByGroupId(@PathVariable("id") UUID id) {
         return teacherService.findByGroupId(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private TeacherDTO createTeacher(@Valid @RequestBody TeacherCreateDTO teacherCreateDTO) {
+    public TeacherDTO createTeacher(@Valid @RequestBody TeacherCreateDTO teacherCreateDTO) {
         return teacherService.save(teacherCreateDTO);
     }
 
     @PutMapping("/{id}")
-    private TeacherDTO updateTeacher(@PathVariable("id") UUID id, @Valid @RequestBody TeacherCreateDTO teacherCreateDTO) {
+    public TeacherDTO updateTeacher(@PathVariable("id") UUID id, @Valid @RequestBody TeacherCreateDTO teacherCreateDTO) {
         return teacherService.update(id, teacherCreateDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void deleteTeacher(@PathVariable("id") UUID id) {
+    public void deleteTeacher(@PathVariable("id") UUID id) {
         teacherService.delete(id);
     }
 
     @GetMapping("/csv")
-    private ResponseEntity<InputStreamResource> exportToCSV() {
+    public ResponseEntity<InputStreamResource> exportToCSV() {
         String csvData = teacherService.generateCSV();
         ByteArrayInputStream inputStream = new ByteArrayInputStream(csvData.getBytes());
 

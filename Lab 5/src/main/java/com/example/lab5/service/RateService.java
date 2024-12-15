@@ -34,8 +34,8 @@ public class RateService {
     }
 
     public RateDTO findById(UUID id) {
-        Rate foundClass = rateRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(ItemNotFoundException.ItemType.RATE, id));
-        return rateMapper.toDTO(foundClass);
+        Rate foundRate = rateRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(ItemNotFoundException.ItemType.RATE, id));
+        return rateMapper.toDTO(foundRate);
     }
 
     public RateDTO save(RateCreateDTO rateCreateDTO) {
@@ -58,6 +58,7 @@ public class RateService {
     }
 
     public void delete(UUID id) {
+        if (!rateRepository.existsById(id)) throw new ItemNotFoundException(ItemNotFoundException.ItemType.RATE, id);
         rateRepository.deleteById(id);
     }
 

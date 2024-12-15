@@ -24,34 +24,34 @@ public class RateController {
     private final RateService rateService;
 
     @GetMapping
-    private List<RateDTO> getAllRates() {
+    public List<RateDTO> getAllRates() {
         return rateService.findAll();
     }
 
     @GetMapping("/{id}")
-    private RateDTO getRateById(@PathVariable("id") UUID id) {
+    public RateDTO getRateById(@PathVariable("id") UUID id) {
         return rateService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private RateDTO createRate(@Valid @RequestBody RateCreateDTO rateCreateDTO) {
+    public RateDTO createRate(@Valid @RequestBody RateCreateDTO rateCreateDTO) {
         return rateService.save(rateCreateDTO);
     }
 
     @PutMapping("/{id}")
-    private RateDTO updateRate(@PathVariable("id") UUID id, @Valid @RequestBody RateCreateDTO rateCreateDTO) {
+    public RateDTO updateRate(@PathVariable("id") UUID id, @Valid @RequestBody RateCreateDTO rateCreateDTO) {
         return rateService.update(id, rateCreateDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void deleteRate(@PathVariable("id") UUID id) {
+    public void deleteRate(@PathVariable("id") UUID id) {
         rateService.delete(id);
     }
 
     @GetMapping("/csv")
-    private ResponseEntity<InputStreamResource> exportToCSV() {
+    public ResponseEntity<InputStreamResource> exportToCSV() {
         String csvData = rateService.generateCSV();
         ByteArrayInputStream inputStream = new ByteArrayInputStream(csvData.getBytes());
 

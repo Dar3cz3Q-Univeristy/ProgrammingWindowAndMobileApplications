@@ -24,34 +24,34 @@ public class TeacherClassController {
     private final TeacherClassService teacherClassService;
 
     @GetMapping
-    private List<TeacherClassDTO> getAllClasses() {
+    public List<TeacherClassDTO> getAllClasses() {
         return teacherClassService.findAll();
     }
 
     @GetMapping("/{id}")
-    private TeacherClassDTO getClassById(@PathVariable("id") UUID id) {
+    public TeacherClassDTO getClassById(@PathVariable("id") UUID id) {
         return teacherClassService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private TeacherClassDTO createClass(@Valid @RequestBody TeacherClassCreateDTO teacherClassCreateDTO) {
+    public TeacherClassDTO createClass(@Valid @RequestBody TeacherClassCreateDTO teacherClassCreateDTO) {
         return teacherClassService.save(teacherClassCreateDTO);
     }
 
     @PutMapping("/{id}")
-    private TeacherClassDTO updateClass(@PathVariable("id") UUID id, @Valid @RequestBody TeacherClassCreateDTO teacherClassCreateDTO) {
+    public TeacherClassDTO updateClass(@PathVariable("id") UUID id, @Valid @RequestBody TeacherClassCreateDTO teacherClassCreateDTO) {
         return teacherClassService.update(id, teacherClassCreateDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void deleteClass(@PathVariable("id") UUID id) {
+    public void deleteClass(@PathVariable("id") UUID id) {
         teacherClassService.delete(id);
     }
 
     @GetMapping("/csv")
-    private ResponseEntity<InputStreamResource> exportToCSV() {
+    public ResponseEntity<InputStreamResource> exportToCSV() {
         String csvData = teacherClassService.generateCSV();
         ByteArrayInputStream inputStream = new ByteArrayInputStream(csvData.getBytes());
 
