@@ -1,4 +1,4 @@
-name: Java CI with Maven - Lab 1
+name: Java CI with Maven - Lab 4B
 
 on:
   push:
@@ -21,5 +21,5 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: |
-        cd "Lab 1"
+        cd "Lab 4B"
         mvn -B package --file pom.xml

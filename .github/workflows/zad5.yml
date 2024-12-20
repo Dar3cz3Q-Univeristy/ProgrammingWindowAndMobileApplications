@@ -1,4 +1,4 @@
-name: Java CI with Maven - Lab 1
+name: Java CI with Maven - Lab 5
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
+  build-and-test:
 
     runs-on: ubuntu-latest
 
@@ -21,5 +21,6 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: |
-        cd "Lab 1"
+        cd "Lab 5"
         mvn -B package --file pom.xml
+        mvn test
